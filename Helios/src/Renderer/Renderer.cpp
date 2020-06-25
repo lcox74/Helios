@@ -1,5 +1,6 @@
 #include "Renderer.h"
 
+
 namespace Helios {
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
@@ -7,7 +8,7 @@ namespace Helios {
 	int screen_width = 0;
 	int screen_height = 0;
 
-	SDL_Color clear_colour = { 255, 0, 255 };
+	SDL_Color clear_colour = { 10, 10, 10 };
 
 	void Initialise() {
 		assert(SDL_Init(SDL_INIT_VIDEO) == 0);
@@ -16,19 +17,37 @@ namespace Helios {
 		screen_width = GetSystemMetrics(SM_CXSCREEN);
 		screen_height = GetSystemMetrics(SM_CYSCREEN);
 
-		window = SDL_CreateWindow("Helios", SDL_WINDOWPOS_CENTERED, 0, screen_width, 30, SDL_WINDOW_BORDERLESS);
+		window = SDL_CreateWindow("Helios", SDL_WINDOWPOS_CENTERED, 0, screen_width, 30, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SKIP_TASKBAR);
 		assert(window);
 
 		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 		assert(renderer);
 
-		SDL_SetRenderDrawColor(renderer, 255, 0, 255, 255);
-		SDL_RenderClear(renderer);
+		// Set the window to an app bar
+		RefreshApplicationBar();
+
+		// Clear the renderer
+		Clear();
+
+		// Draw Renderer
 		SDL_RenderPresent(renderer);
 	}
 
-	void RenderText(const char* text, int x, int y, int size, SDL_Color color)
-	{
+	void SetApplicationBar() {
+		assert(AppBar::RegisterAppBar(window, true));
+		AppBar::AppBarSetPos(window, AppBar::AB_EDGE::TOP);
+	}
+
+	void UnSetApplicationBar() { AppBar::RegisterAppBar(window, false); }
+
+	void RefreshApplicationBar() {
+		UnSetApplicationBar();
+		SetApplicationBar();
+	}
+
+	SDL_Window* GetWindow() { return window; }
+
+	void RenderText(const char* text, int x, int y, int size, SDL_Color color) {
 		TTF_Font* text_font = TTF_OpenFont("res/fonts/segoeui.ttf", size);
 		SDL_Surface* text_surface = TTF_RenderText_Shaded(text_font, text, color, clear_colour);
 		SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
@@ -45,8 +64,7 @@ namespace Helios {
 		SDL_RenderPresent(renderer);
 	}
 
-	void RenderGlyphs(uint16_t glyph, int x, int y, int size, SDL_Color color)
-	{
+	void RenderGlyphs(uint16_t glyph, int x, int y, int size, SDL_Color color) {
 		TTF_Font* glyph_font = TTF_OpenFont("res/fonts/SegMDL2.ttf", size);
 		SDL_Surface* glyph_surface = TTF_RenderGlyph_Shaded(glyph_font, glyph, color, clear_colour);
 		SDL_Texture* glyph_texture = SDL_CreateTextureFromSurface(renderer, glyph_surface);
@@ -63,15 +81,16 @@ namespace Helios {
 		SDL_RenderPresent(renderer);
 	}
 
-	void Clear()
-	{
-		SDL_SetRenderDrawColor(renderer, clear_colour.r, clear_colour.g, clear_colour.b, 255);
+	void Clear() {
+		// Find a way to make this not call every clear, used to reset the window for the app bar
+		SDL_SetWindowPosition(Helios::GetWindow(), 0, 0);
 
-		if (SDL_RenderClear(renderer)) std::cout << "Error" << std::endl;
+		// Clears the renderer
+		SDL_SetRenderDrawColor(renderer, clear_colour.r, clear_colour.g, clear_colour.b, 255);
+		SDL_RenderClear(renderer);
 	}
 
-	void SetTransparentColour(SDL_Color key)
-	{
+	void SetTransparentColour(SDL_Color key) {
 		SDL_SysWMinfo wmInfo;
 		SDL_VERSION(&wmInfo.version);
 		SDL_GetWindowWMInfo(window, &wmInfo);
@@ -83,8 +102,8 @@ namespace Helios {
 		clear_colour = key;
 	}
 
-	void Clean()
-	{
+	void Clean() {
+		UnSetApplicationBar();
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 	}

@@ -31,8 +31,9 @@ int main(int argc, char** argv) {
             Helios::Clear();
             last_frame = SDL_GetTicks();
         }
-        
     }
+
+    Helios::Clean();
 
     return 0;
 }
