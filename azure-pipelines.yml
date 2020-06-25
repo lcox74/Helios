@@ -37,7 +37,7 @@ steps:
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
     contents: |
-        **\Helios\bin\**\*.exe
+        **\bin\**\Helios.exe
         **\Helios\vendor\SDL2-2.0.12\lib\*.dll
     targetFolder: '$(Build.ArtifactStagingDirectory)'
     CleanTargetFolder: true
