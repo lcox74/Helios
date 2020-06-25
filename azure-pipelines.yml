@@ -32,3 +32,19 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: |
+        **\Helios\bin\**\*.exe
+        **\Helios\vendor\SDL2-2.0.12\lib\*.dll
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
+    flattenFolders: true
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'Helios_x64'
+    publishLocation: 'Container'
