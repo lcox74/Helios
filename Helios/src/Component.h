@@ -61,9 +61,11 @@ namespace Helios
 
 		// Get the components ID (This should be unique; MAX 256 Components)
 		unsigned char GetId() { return this->uid; }
+		bool GetRenderFlag() { return this->render_flag; }
 
 	protected:
 		unsigned char uid; // Unique identifier for the component
 		Transform transform; // Components position and size
+		bool render_flag = true;
 	};
 }

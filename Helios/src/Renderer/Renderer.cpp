@@ -87,6 +87,17 @@ namespace Helios {
 	void RenderComponents() {
 		if (window == nullptr || renderer == nullptr) return;
 
+		bool re_render = false;
+		for (auto c : components) {
+			if (c->GetRenderFlag()) {
+				re_render = true;
+				break;
+			}
+		}
+
+		if (!re_render) return;
+
+		Clear();
 		for (auto c : components) c->Render();
 		SDL_RenderPresent(renderer);
 	}

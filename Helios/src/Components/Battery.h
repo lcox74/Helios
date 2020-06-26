@@ -48,11 +48,17 @@ namespace Helios
             RenderGlyphs(GetBatteryGlyph(battery_percentage), this->transform.x, this->transform.y + 7, 16);
             std::string percent_text = std::to_string(battery_percentage) + "%";
             RenderText(percent_text.c_str(), this->transform.x + 26, this->transform.y + 4, 16, FONT_TYPE::NORMAL);
+
+            battery_time_remaining_prev = battery_time_remaining;
+            battery_percentage_prev = battery_percentage;
+            this->render_flag = false;
         }
 
         void UpdateBatteryStatus() {
             battery_status = ((int)SDL_GetPowerInfo(&battery_time_remaining, &battery_percentage) >= SDL_POWERSTATE_CHARGING) ? 1 : 0;
             battery_timer = SDL_GetTicks();
+
+            if (battery_time_remaining != battery_time_remaining_prev || battery_percentage != battery_percentage_prev) this->render_flag = true;
         }
 
     private:
@@ -61,6 +67,7 @@ namespace Helios
 
         unsigned int battery_timer = 0, battery_timer_delay = 1000;
         int battery_time_remaining = 0, battery_percentage = 0;
+        int battery_time_remaining_prev = 0, battery_percentage_prev = 0;
 
         // Quick method to calculate the battery level (0 - 10)
         inline unsigned char PercentageToLevel(double percent) { return (unsigned char)floor((percent + 4) / 10); }

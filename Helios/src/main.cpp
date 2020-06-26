@@ -24,8 +24,8 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    Uint32 last_frame = 0;
-    unsigned char delay = 50;
+    Uint32 last_frame = 0, delta = 0;
+    unsigned char delay = 50; // 20 FPS
 
     Helios::PushComponent(new Helios::Battery(0, (int)(Helios::GetMonitorWidth() * 0.89), 0));
 
@@ -39,15 +39,17 @@ int main(int argc, char** argv) {
             }
         }
 
-        // Update
+        // Update Components
         Helios::UpdateComponents();
 
-        // Render Frame
-        if (SDL_GetTicks() > last_frame + delay) {
-            Helios::Clear();
-            Helios::RenderComponents();
-            last_frame = SDL_GetTicks();
-        }
+        // Render Components
+        Helios::RenderComponents();
+
+        // Frame Regulator
+        delta = SDL_GetTicks() - last_frame;
+        if (delta < delay) SDL_Delay(delay - delta);
+
+        last_frame = SDL_GetTicks();
     }
 
     // Clean and release mutex
