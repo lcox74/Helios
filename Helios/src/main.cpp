@@ -9,6 +9,7 @@
 #include "Renderer/Renderer.h"
 #include "Component.h"
 #include "Components/Battery.h"
+#include "Components/Clock.h"
 
 int main(int argc, char** argv) {
 
@@ -28,6 +29,7 @@ int main(int argc, char** argv) {
     unsigned char delay = 50; // 20 FPS
 
     Helios::PushComponent(new Helios::Battery(0, (int)(Helios::GetMonitorWidth() * 0.89), 0));
+    Helios::PushComponent(new Helios::Clock(1, (int)(Helios::GetMonitorWidth() * 0.89) + 87, 0));
 
     // Loop until user quits
     bool running = true;

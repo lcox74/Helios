@@ -45,9 +45,9 @@ namespace Helios
 
         void Update() override { if (SDL_GetTicks() > battery_timer + battery_timer_delay) UpdateBatteryStatus(); }
         void Render() override { 
-            RenderGlyphs(GetBatteryGlyph(battery_percentage), this->transform.x, this->transform.y + 7, 16);
+            RenderGlyphs(GetBatteryGlyph(battery_percentage), this->transform.x, this->transform.y + 7);
             std::string percent_text = std::to_string(battery_percentage) + "%";
-            RenderText(percent_text.c_str(), this->transform.x + 26, this->transform.y + 4, 16, FONT_TYPE::NORMAL);
+            RenderText(percent_text.c_str(), this->transform.x + 26, this->transform.y + 4);
 
             battery_time_remaining_prev = battery_time_remaining;
             battery_percentage_prev = battery_percentage;

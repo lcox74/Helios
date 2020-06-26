@@ -11,6 +11,8 @@ namespace Helios {
 	int sdl_displacement_check = 0;
 	int sdl_x = 0, sdl_y = 0;
 
+	unsigned char last_render = 0;
+
 	SDL_Color clear_colour = { 10, 10, 10 };
 	
 	std::vector<Component*> components;
@@ -86,6 +88,7 @@ namespace Helios {
 	}
 	void RenderComponents() {
 		if (window == nullptr || renderer == nullptr) return;
+		last_render++;
 
 		bool re_render = false;
 		for (auto c : components) {
@@ -95,7 +98,8 @@ namespace Helios {
 			}
 		}
 
-		if (!re_render) return;
+		if (!re_render && last_render < 250) return;
+		last_render = 0;
 
 		Clear();
 		for (auto c : components) c->Render();
