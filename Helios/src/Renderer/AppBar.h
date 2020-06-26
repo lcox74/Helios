@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include <shellapi.h>
-#include <assert.h>
 
 #include <SDL2/SDL_syswm.h>
 

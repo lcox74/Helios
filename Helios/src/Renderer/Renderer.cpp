@@ -1,6 +1,5 @@
 #include "Renderer.h"
 
-
 namespace Helios {
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
@@ -124,6 +123,28 @@ namespace Helios {
 		return info.info.win.window;
 	}
 
+	void SetRunAtStartUp(bool state)
+	{
+		// Get Application Path
+		TCHAR app_location[MAX_PATH];
+		HANDLE file_location_handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
+		GetModuleFileNameEx(file_location_handle, 0, app_location, MAX_PATH);
+		
+		// Open the auto-run register
+		HKEY registry_key_handle;
+		RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_WRITE, &registry_key_handle);
+
+		// Set register value
+		if (state)
+			RegSetValueEx(registry_key_handle, L"HELIOSx64", 0, REG_SZ, (BYTE*)app_location, wcslen(app_location) * sizeof(app_location[0]));
+		else
+			RegDeleteValue(registry_key_handle, L"HELIOSx64");
+		
+		// Clean
+		RegCloseKey(registry_key_handle);
+		CloseHandle(file_location_handle);
+	}
+
 	int GetMonitorWidth() { return screen_width; }
 	int GetMonitorHeight() { return screen_height; }
 
@@ -141,6 +162,8 @@ namespace Helios {
 
 		SDL_Surface* text_surface = TTF_RenderText_Blended(text_font, text, color);
 		SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+
+		// Copy text_texture to a new texture to simulate scrolling
 
 		int text_width = 0, text_height = 0;
 		SDL_QueryTexture(text_texture, NULL, NULL, &text_width, &text_height);

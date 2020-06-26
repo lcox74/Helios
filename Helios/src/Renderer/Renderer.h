@@ -4,13 +4,14 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_syswm.h>
 
-#include <assert.h>
 #include <cstdint>
-#include <Windows.h>
-#include <WinUser.h>
 #include <iostream>
 #include <vector>
 #include <memory>
+
+#include <Windows.h>
+#include <WinUser.h>
+#include <Psapi.h>
 
 #include "AppBar.h"
 #include "../Component.h"
@@ -44,6 +45,9 @@ namespace Helios {
 
 	SDL_Window* GetWindow();
 	HWND GetWindowHandler();
+
+	// Use at some point
+	void SetRunAtStartUp(bool state);
 
 	int GetMonitorWidth();
 	int GetMonitorHeight();
