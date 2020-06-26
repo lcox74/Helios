@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Renderer/Renderer.h"
+
 namespace Helios
 {
 	struct Transform {
@@ -26,8 +28,6 @@ namespace Helios
 
 	class Component {
 	public:
-		virtual ~Component() = 0;
-
 		// Can be called multiple times a frame
 		virtual void Update() = 0;
 		// Called onces a frame to render the component
@@ -65,6 +65,5 @@ namespace Helios
 	protected:
 		unsigned char uid; // Unique identifier for the component
 		Transform transform; // Components position and size
-
 	};
 }

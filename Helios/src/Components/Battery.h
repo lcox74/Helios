@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <string>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
@@ -24,7 +25,7 @@ namespace Helios
         0xF608                                                                                  // Unknown
     };
 
-    class Battery : Component
+    class Battery : public Component
     {
     public:
         Battery(unsigned char unique_identifier, int x, int y) {
@@ -40,15 +41,17 @@ namespace Helios
             this->battery_status = 0;
             this->battery_orientation = true;
         }
-        ~Battery() { }
+        ~Battery() {}
 
         void Update() override { if (SDL_GetTicks() > battery_timer + battery_timer_delay) UpdateBatteryStatus(); }
         void Render() override { 
-            
+            RenderGlyphs(GetBatteryGlyph(battery_percentage), this->transform.x, this->transform.y + 7, 16);
+            std::string percent_text = std::to_string(battery_percentage) + "%";
+            RenderText(percent_text.c_str(), this->transform.x + 26, this->transform.y + 4, 16, FONT_TYPE::NORMAL);
         }
 
         void UpdateBatteryStatus() {
-            battery_status = ((int)SDL_GetPowerInfo(&battery_time_remaining, &battery_percentage) == SDL_POWERSTATE_CHARGING) ? 1 : 0;
+            battery_status = ((int)SDL_GetPowerInfo(&battery_time_remaining, &battery_percentage) >= SDL_POWERSTATE_CHARGING) ? 1 : 0;
             battery_timer = SDL_GetTicks();
         }
 
@@ -56,10 +59,8 @@ namespace Helios
         unsigned char battery_status;   // 0 = Normal; 1 = Charging; 2 = Battery Saver
         bool battery_orientation;       // False = Horizontal; True = Vertical
 
-        int battery_timer = 0, battery_timer_delay = 100;
+        unsigned int battery_timer = 0, battery_timer_delay = 1000;
         int battery_time_remaining = 0, battery_percentage = 0;
-
-        const char* battery_text = "";
 
         // Quick method to calculate the battery level (0 - 10)
         inline unsigned char PercentageToLevel(double percent) { return (unsigned char)floor((percent + 4) / 10); }

@@ -1,17 +1,33 @@
 #include <iostream>
 #include <stdlib.h>
 #include <assert.h>
+#include <memory>
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
 
 #include "Renderer/Renderer.h"
+#include "Component.h"
+#include "Components/Battery.h"
 
 int main(int argc, char** argv) {
-    Helios::Initialise();
+
+    // Check if instance is already running
+    HANDLE mutex = CreateMutexEx(0, L"HELIOSx64", 0, 0);
+    if (!mutex) return 0;
+
+    if (!Helios::SetupRenderer()) {
+        // Clean and release mutex
+        Helios::Clean();
+        ReleaseMutex(mutex);
+
+        return 0;
+    }
 
     Uint32 last_frame = 0;
     unsigned char delay = 50;
+
+    Helios::PushComponent(new Helios::Battery(0, (int)(Helios::GetMonitorWidth() * 0.89), 0));
 
     // Loop until user quits
     bool running = true;
@@ -24,16 +40,19 @@ int main(int argc, char** argv) {
         }
 
         // Update
-
+        Helios::UpdateComponents();
 
         // Render Frame
         if (SDL_GetTicks() > last_frame + delay) {
             Helios::Clear();
+            Helios::RenderComponents();
             last_frame = SDL_GetTicks();
         }
     }
 
+    // Clean and release mutex
     Helios::Clean();
+    ReleaseMutex(mutex);
 
     return 0;
 }
