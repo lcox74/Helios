@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <cstdint>
 #include <Windows.h>
+#include <WinUser.h>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -42,6 +43,8 @@ namespace Helios {
 	void RenderComponents();
 
 	SDL_Window* GetWindow();
+	HWND GetWindowHandler();
+
 	int GetMonitorWidth();
 	int GetMonitorHeight();
 

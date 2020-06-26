@@ -159,6 +159,7 @@
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\Components\Battery.h" />
     <ClInclude Include="src\Components\Clock.h" />
+    <ClInclude Include="src\Components\Launcher.h" />
     <ClInclude Include="src\Renderer\AppBar.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
   </ItemGroup>

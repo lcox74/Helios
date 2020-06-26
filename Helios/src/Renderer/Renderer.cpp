@@ -35,6 +35,10 @@ namespace Helios {
 
 		// Clear the renderer
 		Clear();
+		
+		// Hide application from Alt-Tab (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowlongptra)
+		auto exStyle = GetWindowLongPtr(GetWindowHandler(), GWL_EXSTYLE);
+		SetWindowLongPtr(GetWindowHandler(), GWL_EXSTYLE, exStyle | WS_EX_TOOLWINDOW);
 
 		// Draw Renderer
 		SDL_RenderPresent(renderer);
@@ -107,6 +111,19 @@ namespace Helios {
 	}
 
 	SDL_Window* GetWindow() { return window; }
+	HWND GetWindowHandler()
+	{
+		SDL_SysWMinfo info = SDL_SysWMinfo();
+
+		// Calling the SDL Version to stop the bug with getting WM info
+		SDL_VERSION(&info.version);
+
+		// Getting the system info 
+		if (SDL_GetWindowWMInfo(window, &info) == -1) return nullptr;
+
+		return info.info.win.window;
+	}
+
 	int GetMonitorWidth() { return screen_width; }
 	int GetMonitorHeight() { return screen_height; }
 

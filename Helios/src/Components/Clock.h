@@ -21,7 +21,9 @@ namespace Helios {
 
             // Size from https://github.com/JamesDearlove/Selene/blob/master/src/Selene/Components/TimeDisplay.xaml
             this->transform.height = 30;
-            this->transform.width = 400;
+            this->transform.width = 140;
+
+            current_time = previous_time = "";
         }
         ~Clock() {}
 
@@ -34,7 +36,6 @@ namespace Helios {
 
             char current[12];
             strftime(current, 80, "%I:%M:%S %p", &timeinfo);
-            puts(current);
             current_time = current;
             
             if (current_time != previous_time) this->render_flag = true;
