@@ -6,12 +6,16 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 
-#include "Renderer/Renderer.h"
+#include "Renderer.h"
 
 #include "Component.h"
 #include "Components/Launcher.h"
 #include "Components/Battery.h"
 #include "Components/Clock.h"
+#include "Components/MusicDisplay.h"
+
+
+
 
 int main(int argc, char** argv) {
 
@@ -31,8 +35,9 @@ int main(int argc, char** argv) {
     unsigned char delay = 50; // 20 FPS
 
     Helios::PushComponent(new Helios::Launcher(0, 0, 0));
-    Helios::PushComponent(new Helios::Battery(1, (int)(Helios::GetMonitorWidth()) - 230, 0));
-    Helios::PushComponent(new Helios::Clock(2, (int)(Helios::GetMonitorWidth()) - 140, 0));
+    Helios::PushComponent(new Helios::MusicDisplay(1, (int)(Helios::GetMonitorWidth() / 2.0f) - 200, 0));
+    Helios::PushComponent(new Helios::Battery(2, (int)(Helios::GetMonitorWidth()) - 230, 0));
+    Helios::PushComponent(new Helios::Clock(3, (int)(Helios::GetMonitorWidth()) - 140, 0));
 
     // Loop until user quits
     bool running = true;

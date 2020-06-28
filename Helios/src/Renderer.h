@@ -8,13 +8,14 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <math.h>
 
 #include <Windows.h>
 #include <WinUser.h>
 #include <Psapi.h>
 
 #include "AppBar.h"
-#include "../Component.h"
+#include "Component.h"
 
 namespace Helios {
 
@@ -53,7 +54,7 @@ namespace Helios {
 	int GetMonitorHeight();
 
 	// Render Text
-	void RenderText(const char* text, int x, int y, int size = 16, int font_type = FONT_TYPE::NORMAL, SDL_Color color = { 255, 255, 255 });
+	void RenderText(const char* text, int x, int y, int justification = 0, int size = 16, int font_type = FONT_TYPE::NORMAL, SDL_Color color = { 255, 255, 255 });
 
 	// Render Glyphs
 	void RenderGlyphs(uint16_t glyph, int x, int y, int size = 16, SDL_Color color = { 255, 255, 255 });

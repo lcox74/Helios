@@ -148,7 +148,7 @@ namespace Helios {
 	int GetMonitorWidth() { return screen_width; }
 	int GetMonitorHeight() { return screen_height; }
 
-	void RenderText(const char* text, int x, int y, int size, int font_type, SDL_Color color) {
+	void RenderText(const char* text, int x, int y, int justification, int size, int font_type, SDL_Color color) {
 		if (window == nullptr || renderer == nullptr) return;
 
 		TTF_Font* text_font;
@@ -163,12 +163,10 @@ namespace Helios {
 		SDL_Surface* text_surface = TTF_RenderText_Blended(text_font, text, color);
 		SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
 
-		// Copy text_texture to a new texture to simulate scrolling
-
 		int text_width = 0, text_height = 0;
 		SDL_QueryTexture(text_texture, NULL, NULL, &text_width, &text_height);
 
-		SDL_Rect text_rect{ x, y, text_width, text_height };
+		SDL_Rect text_rect{ x - ((justification) ? (int)(text_width / 2.0f) : 0), y, text_width, text_height };
 		SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
 
 		TTF_CloseFont(text_font);			text_font = nullptr;

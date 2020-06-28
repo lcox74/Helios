@@ -4,10 +4,9 @@
 #include <string>
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_syswm.h>
+#include <SDL2/SDL_syswm.h>s
 
-#include "../Component.h"
-
+#include "Component.h"
 
 namespace Helios
 {

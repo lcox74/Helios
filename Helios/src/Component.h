@@ -1,6 +1,7 @@
-#pragma once
+#ifndef _COMPONENT_H_
+#define _COMPONENT_H_
 
-#include "Renderer/Renderer.h"
+#include "Renderer.h"
 
 namespace Helios
 {
@@ -69,3 +70,5 @@ namespace Helios
 		bool render_flag = true;
 	};
 }
+
+#endif

@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor/SDL2-2.0.12/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor/SDL2-2.0.12/include;$(ProjectDir)src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,7 +138,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor/SDL2-2.0.12/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)vendor/SDL2-2.0.12/include;$(ProjectDir)src</AdditionalIncludeDirectories>
+      <CompileAsWinRT>true</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,16 +153,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Renderer\AppBar.cpp" />
-    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\AppBar.cpp" />
+    <ClCompile Include="src\ProcessHelper.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\Components\Battery.h" />
     <ClInclude Include="src\Components\Clock.h" />
     <ClInclude Include="src\Components\Launcher.h" />
-    <ClInclude Include="src\Renderer\AppBar.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\AppBar.h" />
+    <ClInclude Include="src\Components\MusicDisplay.h" />
+    <ClInclude Include="src\ProcessHelper.h" />
+    <ClInclude Include="src\Renderer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
