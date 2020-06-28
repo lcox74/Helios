@@ -47,16 +47,16 @@ namespace Helios {
 		auto exStyle = GetWindowLongPtr(GetWindowHandler(), GWL_EXSTYLE);
 		SetWindowLongPtr(GetWindowHandler(), GWL_EXSTYLE, exStyle | WS_EX_TOOLWINDOW);
 
+		// Prevent application from hiding when desktop or other application peaking (https://docs.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmsetwindowattribute)
+		int desktop_window_manager_value = DWMNCRENDERINGPOLICY::DWMNCRP_ENABLED;
+		DwmSetWindowAttribute(GetWindowHandler(), DWMWA_DISALLOW_PEEK, &desktop_window_manager_value, sizeof(int));
+		DwmSetWindowAttribute(GetWindowHandler(), DWMWA_EXCLUDED_FROM_PEEK, &desktop_window_manager_value, sizeof(int));
+
+		// Prevent application from hiding when 'Show Desktop' button is pressed (https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos)
+		SetWindowPos(GetWindowHandler(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
 		// Draw Renderer
 		SDL_RenderPresent(renderer);
-
-		// Setup Fonts
-		default_regular_font = TTF_OpenFont("C:\\Windows\\Fonts\\segoeui.ttf", default_font_size);
-		default_light_font = TTF_OpenFont("C:\\Windows\\Fonts\\segoeuil.ttf", default_font_size);
-		default_semi_light_font = TTF_OpenFont("C:\\Windows\\Fonts\\segoeuisl.ttf", default_font_size);
-		default_semi_bold_font = TTF_OpenFont("C:\\Windows\\Fonts\\seguisb.ttf", default_font_size);
-		default_bold_font = TTF_OpenFont("C:\\Windows\\Fonts\\segoeuib.ttf", default_font_size);
-		default_glyph_font = TTF_OpenFont("C:\\Windows\\Fonts\\segmdl2.ttf", default_font_size);
 
 		return true;
 	}

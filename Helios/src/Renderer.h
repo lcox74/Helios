@@ -13,6 +13,7 @@
 #include <Windows.h>
 #include <WinUser.h>
 #include <Psapi.h>
+#include <dwmapi.h>
 
 #include "AppBar.h"
 #include "Component.h"

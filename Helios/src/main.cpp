@@ -14,9 +14,6 @@
 #include "Components/Clock.h"
 #include "Components/MusicDisplay.h"
 
-
-
-
 int main(int argc, char** argv) {
 
     // Check if instance is already running
@@ -38,6 +35,8 @@ int main(int argc, char** argv) {
     Helios::PushComponent(new Helios::MusicDisplay(1, (int)(Helios::GetMonitorWidth() / 2.0f) - 200, 0));
     Helios::PushComponent(new Helios::Battery(2, (int)(Helios::GetMonitorWidth()) - 230, 0));
     Helios::PushComponent(new Helios::Clock(3, (int)(Helios::GetMonitorWidth()) - 140, 0));
+
+    SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
     // Loop until user quits
     bool running = true;

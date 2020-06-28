@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
 #include <Windows.h>
-#include <WinUser.h>
+#include <psapi.h>
+#include <string>
 
 namespace Helios {
 	namespace Process {

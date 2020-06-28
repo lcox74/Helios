@@ -1,10 +1,5 @@
 #include "ProcessHelper.h"
 
-#include <iostream>
-#include <psapi.h>
-#include <stdio.h>
-#include <tchar.h>
-
 const char* current_search;
 std::string search_result;
 
