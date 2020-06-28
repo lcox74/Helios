@@ -136,7 +136,7 @@ namespace Helios {
 
 		// Set register value
 		if (state)
-			RegSetValueEx(registry_key_handle, L"HELIOSx64", 0, REG_SZ, (BYTE*)app_location, wcslen(app_location) * sizeof(app_location[0]));
+			RegSetValueEx(registry_key_handle, L"HELIOSx64", 0, REG_SZ, (BYTE*)app_location, (DWORD)(wcslen(app_location) * sizeof(app_location[0])));
 		else
 			RegDeleteValue(registry_key_handle, L"HELIOSx64");
 		
