@@ -7,8 +7,8 @@
 namespace Helios {
 	namespace Process {
 
-		std::string GetWindowNameByProcessName(std::string name);
+		std::string GetWindowNameByProcessName(const char* name);
 		BOOL CALLBACK EnumWindowCallback(HWND hWnd, LPARAM lparam);
-		std::string ProcessIdToName(DWORD processId);
+		const char* ProcessIdToName(DWORD processId);
 	}
 }

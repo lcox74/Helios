@@ -27,6 +27,12 @@ namespace Helios {
 		BOLD
 	};
 
+	enum TEXT_ALIGN : int {
+		LEFT = 0,
+		CENTRE,
+		RIGHT
+	};
+
 	bool SetupRenderer();
 	
 	// Set the window as an App Bar
@@ -53,8 +59,10 @@ namespace Helios {
 	int GetMonitorWidth();
 	int GetMonitorHeight();
 
+	TTF_Font* FontSelectManager(bool glyph, int size = 16, int font_type = FONT_TYPE::NORMAL);
+
 	// Render Text
-	void RenderText(const char* text, int x, int y, int justification = 0, int size = 16, int font_type = FONT_TYPE::NORMAL, SDL_Color color = { 255, 255, 255 });
+	void RenderText(const char* text, int x, int y, TEXT_ALIGN justification = TEXT_ALIGN::LEFT, int size = 16, int font_type = FONT_TYPE::NORMAL, SDL_Color color = { 255, 255, 255 });
 
 	// Render Glyphs
 	void RenderGlyphs(uint16_t glyph, int x, int y, int size = 16, SDL_Color color = { 255, 255, 255 });

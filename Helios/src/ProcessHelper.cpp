@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <tchar.h>
 
-std::string current_search;
+const char* current_search;
 std::string search_result;
 
-std::string Helios::Process::GetWindowNameByProcessName(std::string name)
+std::string Helios::Process::GetWindowNameByProcessName(const char* name)
 {
     current_search = name;
     bool search = EnumWindows(EnumWindowCallback, NULL);
@@ -20,21 +20,27 @@ std::string Helios::Process::GetWindowNameByProcessName(std::string name)
 BOOL Helios::Process::EnumWindowCallback(HWND hWnd, LPARAM lparam)
 {
     int length = GetWindowTextLength(hWnd);
-    char* buffer = new char[length + 1];
-    GetWindowTextA(hWnd, buffer, length + 1);
-    std::string window_name(buffer);
 
-    DWORD processID;
-    DWORD actualProcId = GetWindowThreadProcessId(hWnd, &processID);
+    if (IsWindowVisible(hWnd) && length != 0) {
+        DWORD processID;
+        DWORD actualProcId = GetWindowThreadProcessId(hWnd, &processID);
 
-    if (ProcessIdToName(processID).find(current_search) != std::string::npos && IsWindowVisible(hWnd) && length != 0) {
-        search_result = window_name;
-        return FALSE;
+        if (strstr(ProcessIdToName(processID), current_search)) {
+            char* buffer = new char[length + 1];
+            GetWindowTextA(hWnd, buffer, length + 1);
+
+            std::string window_name(buffer);
+            delete[] buffer;
+
+            search_result = window_name;
+            return FALSE;
+        }
     }
+    
     return TRUE;
 }
 
-std::string Helios::Process::ProcessIdToName(DWORD pid)
+const char* Helios::Process::ProcessIdToName(DWORD pid)
 {
     CHAR process_name[MAX_PATH] = "";
     HANDLE handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
@@ -49,5 +55,5 @@ std::string Helios::Process::ProcessIdToName(DWORD pid)
     }
     CloseHandle(handle);
 
-    return std::string(process_name);
+    return process_name;
 }
