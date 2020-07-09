@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "MemoryUtil.h"
+
 namespace Helios {
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
@@ -65,7 +67,7 @@ namespace Helios {
 		if (window == nullptr || renderer == nullptr) SetupRenderer();
 		if (!AppBar::RegisterAppBar(window, true)) return;
 
-		AppBar::AppBarSetPos(window, AppBar::AB_EDGE::TOP);
+		AppBar::AppBarSetPos(window);
 	}
 
 	void UnSetApplicationBar() { 

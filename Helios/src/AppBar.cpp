@@ -5,7 +5,6 @@
 namespace Helios {
     namespace AppBar {
 
-        int app_bar_edge = ABE_TOP;
         bool app_bar_registered = false;
         unsigned int app_bar_callback = 0;
         int height = 0, width = 0;
@@ -37,7 +36,6 @@ namespace Helios {
                 if (!SHAppBarMessage(ABM_NEW, data)) return false;
 
                 // Set stats
-                app_bar_edge = ABE_TOP;
                 app_bar_registered = true;
             }
             else {
@@ -50,7 +48,7 @@ namespace Helios {
         }
 
         // Set a registered App Bar to be fixed to a particular side of the screen
-        void PASCAL AppBarSetPos(SDL_Window* window, UINT window_edge, int desired_size)
+        void PASCAL AppBarSetPos(SDL_Window* window, int desired_size)
         {
             // Error Checking
             if (app_bar_registered == false) {
@@ -58,34 +56,22 @@ namespace Helios {
             }
 
             data->rc = size;
-            data->uEdge = window_edge;
+            data->uEdge = ABE_TOP;
             
             // Set window handle
             data->hWnd = GetWindowHandle(window);
             if (data->hWnd == nullptr) return;
 
             // Set the window to the specific edge
-            if ((window_edge == ABE_LEFT) || (window_edge == ABE_RIGHT)) {
-                width = desired_size;
-                data->rc.top = 0;
-                data->rc.bottom = GetSystemMetrics(SM_CYSCREEN);
-            }
-            else {
-                height = desired_size;
-                data->rc.left = 0;
-                data->rc.right = GetSystemMetrics(SM_CXSCREEN);
-            }
+            height = desired_size;
+            data->rc.left = 0;
+            data->rc.right = GetSystemMetrics(SM_CXSCREEN);
 
             // Check if the size and position is valid
             SHAppBarMessage(ABM_QUERYPOS, data);
 
             // Adjust window size to fit the appropriate edge
-            switch (window_edge) {
-            case ABE_LEFT:      data->rc.right = data->rc.left + width;  break;
-            case ABE_RIGHT:     data->rc.left = data->rc.right - width;  break;
-            case ABE_TOP:       data->rc.bottom = data->rc.top + height; break;
-            case ABE_BOTTOM:    data->rc.top = data->rc.bottom - height; break;
-            }
+            data->rc.bottom = data->rc.top + height;
 
             // Check the window rect bound with the system
             SHAppBarMessage(ABM_SETPOS, data);

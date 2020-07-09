@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\AppBar.cpp" />
+    <ClCompile Include="src\MemoryUtil.cpp" />
     <ClCompile Include="src\ProcessHelper.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="src\Components\Launcher.h" />
     <ClInclude Include="src\AppBar.h" />
     <ClInclude Include="src\Components\MusicDisplay.h" />
+    <ClInclude Include="src\MemoryUtil.h" />
     <ClInclude Include="src\ProcessHelper.h" />
     <ClInclude Include="src\Renderer.h" />
   </ItemGroup>

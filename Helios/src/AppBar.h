@@ -15,7 +15,7 @@ namespace Helios {
 		};
 
 		bool RegisterAppBar(SDL_Window* window, bool register_state);
-		void PASCAL AppBarSetPos(SDL_Window* window, UINT window_edge, int desired_size = 30);
+		void PASCAL AppBarSetPos(SDL_Window* window, int desired_size = 30);
 		HWND GetWindowHandle(SDL_Window* window);
 	}
 }
