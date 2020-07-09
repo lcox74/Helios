@@ -36,8 +36,11 @@ BOOL Helios::Process::EnumWindowCallback(HWND hWnd, LPARAM lparam)
         DWORD pid;
         DWORD actual_proc_id = GetWindowThreadProcessId(hWnd, &pid);
 
+        char process_name[MAX_PATH];
+        ProcessIdToName(pid, process_name);
+
         // Check if the process name is the target process
-        if (strstr(ProcessIdToName(pid), current_search)) {
+        if (strstr(process_name, current_search)) {
             // Pass a reference back through the LPARAM and terminate the search
             // to save on compute cycles
             *((HWND*)(lparam)) = hWnd;
@@ -49,10 +52,9 @@ BOOL Helios::Process::EnumWindowCallback(HWND hWnd, LPARAM lparam)
     return TRUE;
 }
 
-const char* Helios::Process::ProcessIdToName(DWORD pid)
+void Helios::Process::ProcessIdToName(DWORD pid, char* process_name, int buffer)
 {
     // Get a handle for the process to read
-    CHAR process_name[MAX_PATH] = "";
     HANDLE handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
 
     HMODULE module_handle;
@@ -63,11 +65,9 @@ const char* Helios::Process::ProcessIdToName(DWORD pid)
         // Get the module handles, check if it failed
         if (EnumProcessModules(handle, &module_handle, sizeof(module_handle), &required_bytes_to_store_lphModule)) {
             // Get the process name
-            GetModuleBaseNameA(handle, module_handle, process_name, sizeof(process_name) / sizeof(CHAR));
+            GetModuleBaseNameA(handle, module_handle, process_name, buffer * sizeof(char));
         }
     }
     // Close handle to prevent leak
     CloseHandle(handle);
-
-    return process_name;
 }
