@@ -36,7 +36,7 @@ namespace Helios {
 		window = SDL_CreateWindow("Helios", SDL_WINDOWPOS_CENTERED, 0, screen_width, 30, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SKIP_TASKBAR);
 		if (!window) return false;
 
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
 		if (!renderer) return false;
 
 		// Set the window to an app bar
