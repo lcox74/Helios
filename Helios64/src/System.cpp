@@ -178,11 +178,6 @@ void Helios::System::set_window_to_top(HWND handle)
     SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
-bool Helios::System::get_startup_state()
-{
-    return false;
-}
-
 void Helios::System::register_startup()
 {
     // Get Application Path
