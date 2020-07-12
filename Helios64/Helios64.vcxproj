@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3bce6dd9-cd8e-4001-88b9-f6140b37354c}</ProjectGuid>
-    <RootNamespace>Helios</RootNamespace>
+    <ProjectGuid>{dc29dae7-4bfb-43de-9d3f-ada30390df71}</ProjectGuid>
+    <RootNamespace>Helios64</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -90,13 +90,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)vendor/SDL2-2.0.12/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)vendor/SDL2-2.0.12/lib/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,35 +136,31 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)vendor/SDL2-2.0.12/include;$(ProjectDir)src</AdditionalIncludeDirectories>
-      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)vendor\SDL2-2.0.12\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)vendor/SDL2-2.0.12/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\HeliosBar.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\AppBar.cpp" />
-    <ClCompile Include="src\MemoryUtil.cpp" />
-    <ClCompile Include="src\ProcessHelper.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Component.h" />
     <ClInclude Include="src\Components\Battery.h" />
     <ClInclude Include="src\Components\Clock.h" />
     <ClInclude Include="src\Components\Launcher.h" />
-    <ClInclude Include="src\AppBar.h" />
     <ClInclude Include="src\Components\MusicDisplay.h" />
-    <ClInclude Include="src\MemoryUtil.h" />
-    <ClInclude Include="src\ProcessHelper.h" />
-    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\HeliosBar.h" />
+    <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
