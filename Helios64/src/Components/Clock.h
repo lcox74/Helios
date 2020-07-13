@@ -18,8 +18,6 @@ namespace Helios {
             // Size from https://github.com/JamesDearlove/Selene/blob/master/src/Selene/Components/TimeDisplay.xaml
             this->transform.height = 30;
             this->transform.width = 130;
-
-            current_time = previous_time = "";
         }
         ~Clock() {}
 
@@ -30,34 +28,28 @@ namespace Helios {
 
             localtime_s(&timeinfo, &long_time);
 
-            char current[12];
-            strftime(current, 80, "%I:%M:%S %p", &timeinfo);
-            current_time = current;
+            char time_now[12];
+            strftime(time_now, 80, "%I:%M:%S %p", &timeinfo);
+            current_time = time_now;
 
-            if (current_time != previous_time) this->render_flag = true;
+            char date_now[12];
+            strftime(date_now, 80, "%d %b %Y", &timeinfo);
+            current_date = date_now;
+
         }
 
         void Render() override {
-            Helios::Resources::RenderGlyph(this->monitor, 0xE121, this->transform.x, this->transform.y + 7);
-            Helios::Resources::RenderText(this->monitor, current_time.c_str(), this->transform.x + 26, this->transform.y + 4);
-
-            previous_time = current_time;
-            this->render_flag = false;
-        }
-
-        void OnEnter(int x, int y) override { 
-            std::cout << "Enter: " << x << ", " << y << "\n";
-        }
-
-        void OnHover(int x, int y) override {
-            std::cout << "Hover: " << x << ", " << y << "\n";
-        }
-
-        void OnLeave(int x, int y) override {
-            std::cout << "Leave: " << x << ", " << y << "\n";
+            if (!ComponentFocused()) {
+                Helios::Resources::RenderGlyph(this->monitor, 0xE121, this->transform.x, this->transform.y + 7);
+                Helios::Resources::RenderText(this->monitor, current_time.c_str(), this->transform.x + 26, this->transform.y + 4);
+            }
+            else {
+                Helios::Resources::RenderGlyph(this->monitor, 0xE787, this->transform.x, this->transform.y + 8);
+                Helios::Resources::RenderText(this->monitor, current_date.c_str(), this->transform.x + 28, this->transform.y + 4);
+            }
         }
 
     private:
-        std::string current_time, previous_time;
+        std::string current_time, current_date;
     };
 }

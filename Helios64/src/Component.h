@@ -31,9 +31,11 @@ namespace Helios {
 		~Component() { }
 
 		// Can be called multiple times a frame
-		virtual void Update() = 0;
+		virtual void Update() {}
+		// Is called once every second
+		virtual void SlowUpdate() {}
 		// Called onces a frame to render the component
-		virtual void Render() = 0;
+		virtual void Render() {}
 
 		// Trigger on mouse click
 		virtual void OnClick(int x, int y, int button) { }
@@ -44,6 +46,12 @@ namespace Helios {
 		virtual void OnHover(int x, int y) { }
 		// Trigger when mouse leaves component
 		virtual void OnLeave(int x, int y) { }
+
+		const POINT GetMousePosition() {
+			POINT p;
+			GetCursorPos(&p);
+			return p;
+		}
 
 		void EventHandler(const SDL_Event* e) {
 			POINT p;

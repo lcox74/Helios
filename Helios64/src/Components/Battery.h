@@ -30,7 +30,7 @@ namespace Helios
         Battery(int m) : Component(m) {
             // Setting Sizes
             this->transform.height = 30;
-            this->transform.width = 80;
+            this->transform.width = 90;
 
             // Set default status
             this->battery_status = 0;

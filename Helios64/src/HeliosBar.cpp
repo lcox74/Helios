@@ -57,12 +57,28 @@ void Helios::HeliosBar::Clean()
 	SDL_DestroyWindow(window);
 }
 
+Uint32 last_slow_update_call = 0, current_slow_update_call;
 void Helios::HeliosBar::Update()
 {
+	current_slow_update_call = SDL_GetTicks();
+
 	// Update Components
-	for (auto const& c : this->layout->left_components) c->Update();
-	for (auto const& c : this->layout->right_components) c->Update();
-	if (this->layout->center_component) this->layout->center_component->Update();
+	for (auto const& c : this->layout->left_components) { 
+		c->Update();
+		if (current_slow_update_call < last_slow_update_call + 1000) c->SlowUpdate();
+	}
+	for (auto const& c : this->layout->right_components) { 
+		c->Update();
+		if (current_slow_update_call < last_slow_update_call + 1000) c->SlowUpdate();
+	}
+	if (this->layout->center_component) { 
+		this->layout->center_component->Update();
+		if (current_slow_update_call < last_slow_update_call + 1000) this->layout->center_component->SlowUpdate();
+	}
+
+	if (current_slow_update_call < last_slow_update_call + 1000) {
+		last_slow_update_call = current_slow_update_call;
+	}
 }
 
 void Helios::HeliosBar::Render()
@@ -85,7 +101,7 @@ void Helios::HeliosBar::Render()
 		c->Render();
 	}
 	if (this->layout->center_component) {
-		this->layout->center_component->SetXPosition((int)(this->size.right / 2.0f));
+		this->layout->center_component->SetXPosition((int)(this->size.right / 2.0f - (int)(this->layout->center_component->GetWidth() / 2.0f)));
 		this->layout->center_component->Render();
 	}
 
